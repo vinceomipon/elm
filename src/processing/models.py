@@ -22,18 +22,6 @@ class ELMImage:
     
 
     # Define get methods
-
-    def get_directory(self):
-        return self.dir
-    
-    def get_bgr_arr(self):
-        return self.bgr_arr
-    
-    def get_hsv_arr(self):
-        return self.hsv_arr
-    
-    def get_rgb_arr(self):
-        return self.rgb_arr
     
     # display scatter plots
     def disp_rgb_scatter(self):
@@ -41,18 +29,34 @@ class ELMImage:
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
 
-
+        # the channels are stored as 2D arrays, must flatten them to 1d for scatter to work
         r, g, b = cv2.split(self.rgb_arr)
-        cv2.imshow('Blue Channel', b)
-        cv2.waitKey(0)
+
+        # converts 2D to 1D arr
+        r_flat = r.flatten()
+        g_flat = g.flatten()
+        b_flat = b.flatten()
+
+        # create color map
+        rgb_colors = np.vstack((r_flat, g_flat, b_flat)).T / 255.0
+
+        ax.scatter(r_flat, g_flat, b_flat, c=rgb_colors, marker='.')
+
+        ax.set_xlabel('R axis')
+        ax.set_ylabel('G axis')
+        ax.set_zlabel('B axis')
+
+        plt.savefig("data/output/rgb_scatter.png", dpi=300, bbox_inches='tight')
+
+        plt.close(fig)
     
     
     # Permanently resizes the image
     # returns True if succesfully completed
     def resize_img(self, width: int, height: int):
-        self._bgr_arr = cv2.resize(self.bgr_arr, (width, height))
-        self._rgb_arr = cv2.resize(self.rgb_arr, (width, height))
-        self._hsv_arr = cv2.resize(self.hsv_arr, (width, height))
+        self.bgr_arr = cv2.resize(self.bgr_arr, (width, height))
+        self.rgb_arr = cv2.resize(self.rgb_arr, (width, height))
+        self.hsv_arr = cv2.resize(self.hsv_arr, (width, height))
         return True
 
 

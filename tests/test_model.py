@@ -8,16 +8,16 @@ from src.processing.models import ELMImage
 def test_get_dir():
     dir = "data/raw/20241116_110324.jpg"
     img = ELMImage("data/raw/20241116_110324.jpg")
-    assert dir == img.get_directory()
+    assert dir == img.dir
 
 def test_get_bgr_arr():
     dir = "data/raw/20241116_110324.jpg"
     img = ELMImage(dir)
     expected_bgr_arr = cv2.imread(dir)
-    actual_bgr_arr = img.get_bgr_arr()
+    actual_bgr_arr = img.bgr_arr
 
     # checks if their dimensions are the same 
-    assert img.get_bgr_arr().shape == expected_bgr_arr.shape
+    assert img.bgr_arr.shape == expected_bgr_arr.shape
 
     # check if all pixel values are equal
     assert np.array_equal(actual_bgr_arr, expected_bgr_arr)
@@ -27,7 +27,7 @@ def test_get_hsv_arr():
     img = ELMImage(dir)
     expected_img = cv2.imread(dir)
     expected_hsv_arr = cv2.cvtColor(expected_img, cv2.COLOR_BGR2HSV)
-    actual_hsv_arr =  img.get_hsv_arr()
+    actual_hsv_arr =  img.hsv_arr
 
     assert expected_hsv_arr.shape == actual_hsv_arr.shape
 
@@ -41,6 +41,11 @@ def test_rgb_shape():
     print(rgb_arr.shape)
     print(rgb_arr)
 
+def test_rgb_scatter():
+    dir = "data/raw/20241116_110324.jpg"
+    img = ELMImage(dir)
+    img.disp_rgb_scatter()
+
 def test_resize_img():
     dir = "data/raw/20241116_110324.jpg"
     img = ELMImage(dir)
@@ -52,16 +57,31 @@ def test_resize_img():
 
     # this is true since 'cv2.imread(dir)' outputs a bgr_arr
     expected_bgr_arr = expected_img
+    expected_rgb_arr = cv2.cvtColor(expected_img, cv2.COLOR_BGR2RGB)
     expected_hsv_arr = cv2.cvtColor(expected_img, cv2.COLOR_BGR2HSV)
 
     # resize the image
     expected_bgr_arr = cv2.resize(expected_bgr_arr, (width, height))
+    expected_rgb_arr = cv2.resize(expected_rgb_arr, (width, height))
     expected_hsv_arr = cv2.resize(expected_hsv_arr, (width, height))
 
     # check if resize was performed sucessfully
     assert img.resize_img(width, height)
 
-    # actual_rgb_arr = img._rgb_arr
+    actual_rgb_arr = img.rgb_arr
+    actual_bgr_arr = img.bgr_arr
+    actual_hsv_arr = img.hsv_arr
+
+    assert actual_rgb_arr.shape == expected_rgb_arr.shape
+    assert actual_bgr_arr.shape == expected_bgr_arr.shape
+    assert actual_hsv_arr.shape == expected_hsv_arr.shape
+
+
+
+    assert np.array_equal(actual_rgb_arr, expected_rgb_arr)
+    assert np.array_equal(actual_bgr_arr, expected_bgr_arr)
+    assert np.array_equal(actual_hsv_arr, expected_hsv_arr)
+    
 
 
 
