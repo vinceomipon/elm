@@ -4,7 +4,7 @@ import numpy as np
 
 from src.processing.models import ELMImage
 
-# check if loader passed successfully
+# checks getter methods
 def test_get_image():
     dir = "data/raw/20241116_110324.jpg"
     img = ELMImage("data/raw/20241116_110324.jpg")
@@ -12,9 +12,33 @@ def test_get_image():
 
 def test_get_bgr_arr():
     dir = "data/raw/20241116_110324.jpg"
-    image = cv2.imread(dir)
-    cv2.imshow("Window", image)
+    img = ELMImage(dir)
+    expected_bgr_arr = cv2.imread(dir)
+    actual_bgr_arr = img.get_bgr_arr()
 
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # checks if their dimensions are the same 
+    assert img.get_bgr_arr().shape == expected_bgr_arr.shape
+
+    # check if all pixel values are equal
+    assert np.array_equal(actual_bgr_arr, expected_bgr_arr)
+
+def test_get_hsv_arr():
+    dir = "data/raw/20241116_110324.jpg"
+    img = ELMImage(dir)
+    expected_img = cv2.imread(dir)
+    expected_hsv_arr = cv2.cvtColor(expected_img, cv2.COLOR_BGR2HSV)
+    actual_hsv_arr =  img.get_hsv_arr()
+
+    assert expected_hsv_arr.shape == actual_hsv_arr.shape
+
+    assert np.array_equal(actual_hsv_arr, expected_hsv_arr)
+
+# disregard test, just tryna understand how the rgb_arr is stored
+def test_rgb_shape():
+    dir = "data/raw/20241116_110324.jpg"
+    img = cv2.imread(dir)
+    rgb_arr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    print(rgb_arr.shape)
+    print(rgb_arr)
+    
     

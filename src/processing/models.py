@@ -16,6 +16,8 @@ class ELMImage:
         self._bgr_arr = cv2.imread(image)
         self._rgb_arr = cv2.cvtColor(self._bgr_arr, cv2.COLOR_BGR2RGB)
         self._hsv_arr = cv2.cvtColor(self._bgr_arr, cv2.COLOR_BGR2HSV)
+        self._illuminated_mask = None
+        self._panel_mask = None
     
 
     # Define get methods
