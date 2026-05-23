@@ -33,6 +33,15 @@ def test_get_hsv_arr():
 
     assert np.array_equal(actual_hsv_arr, expected_hsv_arr)
 
+def test_get_dimensions():
+    dir = "data/raw/20241116_110324.jpg"
+    img = ELMImage(dir)
+    expected_img = cv2.imread(dir)
+    expected_dim = expected_img.shape
+    actual_dim =  img.bgr_arr.shape
+    assert expected_dim == actual_dim
+    
+
 # disregard test, just tryna understand how the rgb_arr is stored
 def test_rgb_shape():
     dir = "data/raw/20241116_110324.jpg"
@@ -41,10 +50,15 @@ def test_rgb_shape():
     print(rgb_arr.shape)
     print(rgb_arr)
 
-def test_rgb_scatter():
-    dir = "data/raw/20241116_110324.jpg"
-    img = ELMImage(dir)
-    img.disp_rgb_scatter()
+# def test_rgb_scatter():
+#     dir = "data/raw/20241116_110324.jpg"
+#     img = ELMImage(dir)
+#     img.disp_rgb_scatter()
+
+# def test_hsv_scatter():
+#     dir = "data/raw/20241116_110324.jpg"
+#     img = ELMImage(dir)
+#     img.disp_hsv_scatter()
 
 def test_resize_img():
     dir = "data/raw/20241116_110324.jpg"

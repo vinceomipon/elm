@@ -17,11 +17,10 @@ class ELMImage:
         self.bgr_arr = cv2.imread(dir)
         self.rgb_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2RGB)
         self.hsv_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2HSV)
+        self.height, self.width = self.rgb_arr.shape[:2]
         self.illuminated_mask = None
         self.panel_mask = None
     
-
-    # Define get methods
     
     # display scatter plots
     def disp_rgb_scatter(self):
@@ -47,6 +46,29 @@ class ELMImage:
         ax.set_zlabel('B axis')
 
         plt.savefig("data/output/rgb_scatter.png", dpi=300, bbox_inches='tight')
+
+        plt.close(fig)
+    
+    def disp_hsv_scatter(self):
+        fig = plt.figure()
+        ax = fig.add_subplot(projection='3d')
+
+
+        h, s, v = cv2.split(self.hsv_arr)
+        
+        h_flat = h.flatten()
+        s_flat = s.flatten()
+        v_flat = v.flatten()
+
+        hsv_colors = np.vstack((h_flat, s_flat, v_flat)).T / 255.0
+
+        ax.scatter(h_flat, s_flat, v_flat, c=hsv_colors, marker='.')
+
+        ax.set_xlabel('H axis')
+        ax.set_ylabel('S axis')
+        ax.set_zlabel('V axis')
+
+        plt.savefig("data/output/hsv_scatter.png", dpi=300, bbox_inches='tight')
 
         plt.close(fig)
     
