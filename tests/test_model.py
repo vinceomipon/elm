@@ -50,15 +50,15 @@ def test_rgb_shape():
     print(rgb_arr.shape)
     print(rgb_arr)
 
-# def test_rgb_scatter():
-#     dir = "data/raw/20241116_110324.jpg"
-#     img = ELMImage(dir)
-#     img.disp_rgb_scatter()
+def test_rgb_scatter():
+    dir = "data/raw/20241116_110324.jpg"
+    img = ELMImage(dir)
+    img.disp_rgb_scatter()
 
-# def test_hsv_scatter():
-#     dir = "data/raw/20241116_110324.jpg"
-#     img = ELMImage(dir)
-#     img.disp_hsv_scatter()
+def test_hsv_scatter():
+    dir = "data/raw/20241116_110324.jpg"
+    img = ELMImage(dir)
+    img.disp_hsv_scatter()
 
 def test_resize_img():
     dir = "data/raw/20241116_110324.jpg"

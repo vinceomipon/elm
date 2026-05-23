@@ -2,6 +2,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 
 class ELMImage:
 
@@ -20,8 +21,8 @@ class ELMImage:
         self.height, self.width = self.rgb_arr.shape[:2]
         self.illuminated_mask = None
         self.panel_mask = None
-    
-    
+
+
     # display scatter plots
     def disp_rgb_scatter(self):
         # create 3d plot and figure
@@ -60,9 +61,16 @@ class ELMImage:
         s_flat = s.flatten()
         v_flat = v.flatten()
 
-        hsv_colors = np.vstack((h_flat, s_flat, v_flat)).T / 255.0
+        hsv_colors = np.vstack((h_flat, s_flat, v_flat)).T.astype(np.float32)
 
-        ax.scatter(h_flat, s_flat, v_flat, c=hsv_colors, marker='.')
+        norm_factors = np.array([179.0, 255.0, 255.0])
+
+        normalized_hsv = hsv_colors / norm_factors
+
+        # convert to rgb to colour the scatter plot
+        rgb_colors = mcolors.hsv_to_rgb(normalized_hsv)
+
+        ax.scatter(h_flat, s_flat, v_flat, c=rgb_colors, marker='.')
 
         ax.set_xlabel('H axis')
         ax.set_ylabel('S axis')
