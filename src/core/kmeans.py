@@ -30,12 +30,11 @@ def k_means(img: ELMImage, k: int, select: int):
 
     # exit conditions
     # i.e. exit when max iterations reached on the centroid stops moving
-    max_iter = 8
     moved = True
 
     iter = 0
 
-    while moved and iter <= max_iter:
+    while moved:
         iter += 1
 
         # initialize an assignment array of size pixels
@@ -101,12 +100,12 @@ def k_means(img: ELMImage, k: int, select: int):
 
     img2 = img2.transpose()
 
-    img2 = img2.reshape(img.shape)
+    img2 = img2.reshape(img.bgr_arr.shape)
 
     plt.axis('off')
     plt.imshow(img2)
 
-    plt.savefig("2k-means.png", format="png", dpi=600)
+    plt.savefig("data/output/two_means/2k-means.png", format="png", dpi=600)
 
 
 
@@ -128,7 +127,7 @@ def generate_rgb_centroids(k: int):
         r = random.randint(0, 255)
         g = random.randint(0, 255)
         b = random.randint(0, 255)
-        centroids.append((r,g,b))
+        centroids.append([r,g,b])
     
     return centroids
 
@@ -139,7 +138,7 @@ def generate_hsv_centroids(k: int):
         h = random.randint(0, 179)
         s = random.randint(0, 255)
         v = random.randint(0, 255)
-        centroids.append((h,s,v))
+        centroids.append([h,s,v])
 
     return centroids
 
@@ -151,7 +150,9 @@ def generate_hsv_centroids(k: int):
 # Maybe make arguments as (x,y) tuple
 # p1 and p2 are pixels in the image, colour is split into three channels in a list
 def distance(p1, p2):
-    return np.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2 + (p1[2] - p2[2])**2)
+    a1 = np.array(p1)
+    a2 = np.array(p2)
+    return np.linalg.norm(a1 - a2)
 
 
 

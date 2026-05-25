@@ -15,6 +15,7 @@ class ELMImage:
     """
     def __init__(self, dir: str):
         self.dir = dir
+        self.filename = dir.split("/")[2]
         self.bgr_arr = cv2.imread(dir)
         self.rgb_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2RGB)
         self.hsv_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2HSV)
