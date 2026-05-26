@@ -9,7 +9,9 @@ from src.processing.models import *
 # tests the x,y coordinates generated from the function
 def test_rgb_centroid_gen():
     k = 2
-    centroids = generate_rgb_centroids(k)
+    dir = "data/raw/20241116_111731.jpg"
+    two_k_means = k_means_calc(k, dir)
+    centroids = two_k_means.generate_rgb_centroids()
 
     for centroid in centroids:
         for i in range(3):
@@ -17,7 +19,9 @@ def test_rgb_centroid_gen():
 
 def test_rgb_centroid_gen():
     k = 2
-    centroids = generate_rgb_centroids(k)
+    dir = "data/raw/20241116_111731.jpg"
+    two_k_means = k_means_calc(k, dir)
+    centroids = two_k_means.generate_rgb_centroids()
 
     for centroid in centroids:
         assert 0 <= centroid[0] and 255 >= centroid[0]
@@ -28,8 +32,9 @@ def test_kmeans():
     k = 2
     dir = "data/raw/20241116_111731.jpg"
     img = ELMImage(dir)
+    calc = k_means_calc(k, img)
 
-    k_means(img, k, 1)
+    calc.k_means(1)
     
 
     

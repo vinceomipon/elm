@@ -13,54 +13,22 @@ class k_means_calc:
         self.img = img
         self.centroids = []
 
-    # Helper function which assigns all pixels in the image to a specific centroid
-    def assign_pixel_to_centroid(pixel_length: int, k: int, rgb_arr, centroids: list):
-        r, g, b = cv2.split(rgb_arr)
-        
-        # flatten the array to a nx1 vector
-        r = np.array(r.flatten())
-        g = np.array(g.flatten())
-        b = np.array(b.flatten())
-
-        for i in range(pixel_length):
-            closest = calc_min_distance(k, i, r, g, b, centroids)
-
-            assignment[i] = closest
-        
-
-    # Helper function to find the smallest distance between k-centroids
-    def calc_min_distance(k: int, i: int, r, g, b, centroids: list):
-        distances = [0]*k
-
-        # for each k mean, calculate the distance
-        for j in range(k):
-            distances[j] =distance(centroids[j], [r[i], g[i], b[i]])
-
-        # return the indice with the smallest distance (indice implies kth-centroid)
-        return np.argmin(distances)
 
 
 
 
-
-    def k_means(img: ELMImage, k: int, select: int):
-        rgb_arr = img.rgb_arr
+    def k_means(self, select: int):
+        rgb_arr = self.img.rgb_arr
 
         centroids = []
 
-        r, g, b = cv2.split(rgb_arr)
-
-        r = np.array(r.flatten())
-        g = np.array(g.flatten())
-        b = np.array(b.flatten())
-
+        r, g, b = self.img.flatten_rgb_channels()
         
-
         # idea for centroid key is the # of the centroid, value coresponds to the coordiante
         if select == 1:
-            centroids = generate_rgb_centroids(k)
+            centroids = self.generate_rgb_centroids()
         elif select == 0:
-            centroids = generate_hsv_centroids(k)
+            centroids = self.generate_hsv_centroids()
         
         pixels = len(r)
 
@@ -68,10 +36,7 @@ class k_means_calc:
         # i.e. exit when max iterations reached on the centroid stops moving
         moved = True
 
-        iter = 0
-
         while moved:
-            iter += 1
 
             # initialize an assignment array of size pixels
             # each indice represents a pixel and contains the closest distance to a centroid
@@ -83,9 +48,9 @@ class k_means_calc:
                 # create distance array size of number of k-means
                 # basically we calculate the distance for a given pixel, determine which one it is the min to
                 # and then assign it to that centroid
-                distances = [0]*k
-                for j in range(k):
-                    distances[j] = distance(centroids[j], [r[i], g[i], b[i]])
+                distances = [0]*self.k
+                for j in range(self.k):
+                    distances[j] = self.distance(centroids[j], [r[i], g[i], b[i]])
 
                 # find the smallest distance, corresponding to a centroid k
                 # closest is an indice corresponding to closest k centroid
@@ -98,7 +63,7 @@ class k_means_calc:
             prev_centroids = centroids.copy()
             
             # calculate the mean for each cluster
-            for i in range(k):
+            for i in range(self.k):
 
                 # get a list of pixel indices that correspond to the i-th k-mean
                 ind = [j for j in range(pixels) if assignment[j] == i]
@@ -125,7 +90,7 @@ class k_means_calc:
         b_copy = np.array(b.copy())
 
         # update pixels to match their corresponding cluster
-        for i in range(k):
+        for i in range(self.k):
             ind = [j for j in range(pixels) if assignment[j] == i]
 
             r_copy[ind] = centroids[i][0]
@@ -136,17 +101,17 @@ class k_means_calc:
 
         img2 = img2.transpose()
 
-        img2 = img2.reshape(img.bgr_arr.shape)
+        img2 = img2.reshape(self.img.bgr_arr.shape)
 
         plt.axis('off')
         plt.imshow(img2)
 
         plt.savefig("data/output/two_means/2k-means.png", format="png", dpi=600)
     
-    def generate_rgb_centroids(k: int):
+    def generate_rgb_centroids(self):
         centroids = []
 
-        for i in range(k):
+        for i in range(self.k):
             # assign randomly generated centroids
             r = random.randint(0, 255)
             g = random.randint(0, 255)
@@ -155,10 +120,10 @@ class k_means_calc:
         
         return centroids
 
-    def generate_hsv_centroids(k: int):
+    def generate_hsv_centroids(self):
         centroids = []
 
-        for i in range(k):
+        for i in range(self.k):
             h = random.randint(0, 179)
             s = random.randint(0, 255)
             v = random.randint(0, 255)
@@ -173,7 +138,7 @@ class k_means_calc:
     # Since we are using image segmentation use the channels instead of actual distance
     # Maybe make arguments as (x,y) tuple
     # p1 and p2 are pixels in the image, colour is split into three channels in a list
-    def distance(p1, p2):
+    def distance(self, p1, p2):
         a1 = np.array(p1)
         a2 = np.array(p2)
         return np.linalg.norm(a1 - a2)
@@ -183,3 +148,30 @@ class k_means_calc:
 
 
 
+# Implement these later maybe
+
+    # # Helper function which assigns all pixels in the image to a specific centroid
+    # def assign_pixel_to_centroid(pixel_length: int, k: int, rgb_arr, centroids: list):
+    #     r, g, b = cv2.split(rgb_arr)
+        
+    #     # flatten the array to a nx1 vector
+    #     r = np.array(r.flatten())
+    #     g = np.array(g.flatten())
+    #     b = np.array(b.flatten())
+
+    #     for i in range(pixel_length):
+    #         closest = calc_min_distance(k, i, r, g, b, centroids)
+
+    #         assignment[i] = closest
+        
+
+    # # Helper function to find the smallest distance between k-centroids
+    # def calc_min_distance(k: int, i: int, r, g, b, centroids: list):
+    #     distances = [0]*k
+
+    #     # for each k mean, calculate the distance
+    #     for j in range(k):
+    #         distances[j] =distance(centroids[j], [r[i], g[i], b[i]])
+
+    #     # return the indice with the smallest distance (indice implies kth-centroid)
+    #     return np.argmin(distances)

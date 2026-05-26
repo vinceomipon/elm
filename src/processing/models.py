@@ -89,5 +89,12 @@ class ELMImage:
         self.rgb_arr = cv2.resize(self.rgb_arr, (width, height))
         self.hsv_arr = cv2.resize(self.hsv_arr, (width, height))
         return True
-
+    
+    # splits the rgb channels and flattens them
+    def flatten_rgb_channels(self):
+        r, g, b = cv2.split(self.rgb_arr)
+        r = np.array(r.flatten())
+        g = np.array(g.flatten())
+        b = np.array(b.flatten())
+        return [r, g, b]
 
