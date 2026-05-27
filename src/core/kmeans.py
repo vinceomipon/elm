@@ -17,7 +17,6 @@ class k_means_calc:
         else:
             self.centroids = centroids
         
-        random.seed(43)
         
 
     
@@ -91,9 +90,11 @@ class k_means_calc:
                 
                 # if cluster empty then must mean that color is not part of image
                 else:
-                    self.centroids[i][0] = 0
-                    self.centroids[i][1] = 0
-                    self.centroids[i][2] = 0
+                    # pick another random pixel index for new centroid
+                    random_idx = np.random.choice(pixels)
+                    self.centroids[i][0] = r[random_idx]
+                    self.centroids[i][1] = g[random_idx]
+                    self.centroids[i][2] = b[random_idx]
 
             # check if the centroids have moved after each iteration
             if np.array_equal(self.centroids, prev_centroids):
