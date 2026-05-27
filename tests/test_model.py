@@ -95,6 +95,18 @@ def test_resize_img():
     assert np.array_equal(actual_rgb_arr, expected_rgb_arr)
     assert np.array_equal(actual_bgr_arr, expected_bgr_arr)
     assert np.array_equal(actual_hsv_arr, expected_hsv_arr)
+
+
+# checks that flatten_channels fnc actually flatten arr from nxn 1xn^2
+def test_flatten_channels():
+    dir = "data/test-images/red_2x2.png"
+    img = ELMImage(dir)
+
+    actual_channels = img.flatten_channels(img.rgb_arr)
+
+    for colours in actual_channels:
+        assert colours.size == 4
+    
     
 
 
