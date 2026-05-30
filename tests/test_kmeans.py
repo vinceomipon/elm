@@ -58,7 +58,7 @@ def test_kmeans():
     img = ELMImage(dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(1)
+    calc.k_means(select=1)
 
 def test_distance():
     k = 2
@@ -71,7 +71,7 @@ def test_distance():
     expected_dist = np.linalg.norm(a1 - a2)
     actual_dist = calc.distance(a1, a2)
 
-    assert expected_dist
+    assert expected_dist == actual_dist
 
 def test_calc_min_distance1():
     k = 3
