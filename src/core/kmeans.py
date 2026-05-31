@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import random
+from pathlib import Path
 
 
 # imports all functions made in kmeans
@@ -20,7 +21,7 @@ class k_means_calc:
         else:
             self.centroids = centroids
     
-    def k_means(self):
+    def k_means(self, out_dir: Path):
         # Convert 3D array [x, y, colour_channels] into flatten 1d array [[colour_channels]]
         # indice of array matches pixel (x,y)
         pixel_vals = self.img.bgr_arr.reshape((-1,3))
@@ -36,17 +37,12 @@ class k_means_calc:
 
         segmented_image = segmented_data.reshape((self.img.bgr_arr.shape))
 
-        plt.axis('off')
-        plt.savefig(f'data/output/two_means/{self.k}k-means.png', dpi=300, transparent=True, bbox_inches='tight')
+        self.save_k_means(segmented_image, out_dir)
 
-
-    
-
-
-
-
-
-
-# Implement these later maybe
+    def save_k_means(self, channel_arr, out_dir: Path):
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_filename = f"{self.k}k_{self.img.dir.with_suffix(".png").name}"
+        out_path = out_dir / f"{self.img.dir.parent.name}_{out_filename}"
+        cv2.imwrite(str(out_path), channel_arr)
 
     

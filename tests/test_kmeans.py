@@ -42,30 +42,60 @@ def test_constructor2():
         assert 0 <= centroid[1] and 255 >= centroid[1]
         assert 0 <= centroid[2] and 255 >= centroid[2]
 
-def test_kmeans():
+def test_kmeans1():
     k = 2
-    dir = "data/raw/20241116_111731.jpg"
-    img = ELMImage(dir)
+    img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" 
+    img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means()
+    calc.k_means(out_dir)
 
-# test print function of python
-def test_pathlib(capsys):
-    with capsys.disabled():
-    #     for p in Path().iterdir():
-    #         print(p)
+def test_kmeans2():
+    k = 2
+    img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
 
-        my_dir = Path("data")
-        my_file = Path("IMG_6592.HEIC")
+    calc.k_means(out_dir)
+
+def test_kmeans3():
+    k = 2
+    img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6674.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+
+    calc.k_means(out_dir)
+
+def test_kmeans4():
+    k = 2
+    img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+
+    calc.k_means(out_dir)
 
 
-        print(my_dir.parent.parent)
-        print(my_dir.absolute().parent)
-        print(my_dir.exists())
-        print(Path("..").resolve())
-        print(Path(__file__).resolve().parent)
-        print(my_file.absolute())
+
+# # test print function of python
+# def test_pathlib(capsys):
+#     with capsys.disabled():
+#     #     for p in Path().iterdir():
+#     #         print(p)
+
+#         my_dir = Path("data")
+#         my_file = Path("IMG_6592.HEIC")
+
+
+#         print(my_dir.parent.parent)
+#         print(my_dir.absolute().parent)
+#         print(my_dir.exists())
+#         print(Path("..").resolve())
+#         print(Path(__file__).resolve().parent)
+#         print(my_file.absolute())
 
 
     

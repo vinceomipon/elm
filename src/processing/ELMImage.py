@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+from pathlib import Path
 
 class ELMImage:
 
@@ -13,9 +14,9 @@ class ELMImage:
         image: the image to reference to, must have valid path to file
 
     """
-    def __init__(self, dir):
+    def __init__(self, dir: Path):
         self.dir = dir
-        self.bgr_arr = cv2.imread(dir.absolute())
+        self.bgr_arr = cv2.imread(dir)
         self.rgb_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2RGB)
         self.hsv_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2HSV)
         self.height, self.width = self.rgb_arr.shape[:2]
@@ -96,4 +97,7 @@ class ELMImage:
         b = np.array(b.flatten())
         c = np.array(c.flatten())
         return [a, b, c]
+    
+    def generate_hsv_img
+
 
