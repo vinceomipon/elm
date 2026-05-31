@@ -1,5 +1,8 @@
 import cv2
+import os
 import numpy as np
+from pathlib import Path
+
 
 
 # imports all functions made in kmeans
@@ -46,6 +49,28 @@ def test_kmeans():
     calc = k_means_calc(k, img)
 
     calc.k_means()
+
+# test print function of python
+def test_pathlib(capsys):
+    with capsys.disabled():
+    #     for p in Path().iterdir():
+    #         print(p)
+
+        my_dir = Path("data")
+        my_file = Path("IMG_6592.HEIC")
+
+
+        print(my_dir.parent.parent)
+        print(my_dir.absolute().parent)
+        print(my_dir.exists())
+        print(Path("..").resolve())
+        print(Path(__file__).resolve().parent)
+        print(my_file.absolute())
+
+
+    
+
+
 
 
     

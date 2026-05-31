@@ -13,10 +13,9 @@ class ELMImage:
         image: the image to reference to, must have valid path to file
 
     """
-    def __init__(self, dir: str):
+    def __init__(self, dir):
         self.dir = dir
-        self.filename = dir.split("/")[2]
-        self.bgr_arr = cv2.imread(dir)
+        self.bgr_arr = cv2.imread(dir.absolute())
         self.rgb_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2RGB)
         self.hsv_arr = cv2.cvtColor(self.bgr_arr, cv2.COLOR_BGR2HSV)
         self.height, self.width = self.rgb_arr.shape[:2]

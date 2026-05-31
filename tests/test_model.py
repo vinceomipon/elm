@@ -1,13 +1,14 @@
 import cv2
 import numpy as np
+from pathlib import Path
 
 
-from src.processing.models import ELMImage
+from src.processing.ELMImage import ELMImage
 
 # checks getter methods
 def test_get_dir():
-    dir = "data/raw/20241116_110324.jpg"
-    img = ELMImage("data/raw/20241116_110324.jpg")
+    dir = Path("data")
+    img = ELMImage(dir)
     assert dir == img.dir
 
 def test_get_bgr_arr():

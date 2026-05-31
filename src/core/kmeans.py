@@ -36,6 +36,7 @@ class k_means_calc:
 
         segmented_image = segmented_data.reshape((self.img.bgr_arr.shape))
 
+        plt.axis('off')
         plt.savefig(f'data/output/two_means/{self.k}k-means.png', dpi=300, transparent=True, bbox_inches='tight')
 
 
