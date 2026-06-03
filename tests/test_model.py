@@ -107,10 +107,9 @@ def test_flatten_channels():
 
     for colours in actual_channels:
         assert colours.size == 4
+
     
     
-
-
 
 
 

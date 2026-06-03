@@ -30,8 +30,11 @@ class ELMImage:
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
 
+        sampling_step = 5
+        downsampled_img = self.rgb_arr[::sampling_step, ::sampling_step]
+
         # the channels are stored as 2D arrays, must flatten them to 1d for scatter to work
-        r, g, b = cv2.split(self.rgb_arr)
+        r, g, b = cv2.split(downsampled_img)
 
         # converts 2D to 1D arr
         r_flat = r.flatten()
@@ -41,7 +44,7 @@ class ELMImage:
         # create color map
         rgb_colors = np.vstack((r_flat, g_flat, b_flat)).T / 255.0
 
-        ax.scatter(r_flat, g_flat, b_flat, c=rgb_colors, marker='.')
+        ax.scatter(r_flat, g_flat, b_flat, c=rgb_colors, marker='.', s=1)
 
         ax.set_xlabel('R axis')
         ax.set_ylabel('G axis')
@@ -97,7 +100,7 @@ class ELMImage:
         b = np.array(b.flatten())
         c = np.array(c.flatten())
         return [a, b, c]
-    
-    def generate_hsv_img
+
+        
 
 
