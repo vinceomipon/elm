@@ -26,7 +26,8 @@ class k_means_calc:
         # indice of array matches pixel (x,y)
         # select = 0 is bgr, select = 1 is hsv
         if select == 0:
-            pixel_vals = self.img.hsv_arr.reshape((-1,3))
+            # since for hsv only use k-means for the value channel (-1,1) reshape to (N, 1)
+            pixel_vals = self.img.hsv_mono_arr("v").reshape(-1, 1)
         elif select == 1:
             pixel_vals = self.img.bgr_arr.reshape((-1,3))
             
@@ -41,9 +42,19 @@ class k_means_calc:
         centers = np.uint8(centers)
         segmented_data = centers[labels.flatten()]
 
-        segmented_image = segmented_data.reshape((self.img.bgr_arr.shape))
+        segmented_image = None
 
-        self.save_k_means(segmented_image, out_dir)
+        # grayscale the segmented image
+        gray_segmented_image = None
+        if select == 0:
+            segmented_image = segmented_data.reshape(self.img.hsv_mono_arr("v").shape)
+            gray_segmented_image = segmented_image
+        elif select == 1:
+            segmented_image = segmented_data.reshape(self.img.bgr_arr.shape)
+            gray_segmented_image = cv2.cvtColor(segmented_image, cv2.COLOR_BGR2GRAY)
+
+
+        self.save_k_means(gray_segmented_image, out_dir)
 
     def save_k_means(self, channel_arr, out_dir: Path):
         out_dir.mkdir(parents=True, exist_ok=True)

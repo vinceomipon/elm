@@ -101,15 +101,9 @@ class ELMImage:
 
     def hsv_mono_arr(self, select: str) -> cv2.typing.MatLike:
         h, s, v = cv2.split(self.hsv_arr)
-        zeros = np.zeros_like(h)
-
-        mono_arr = cv2.merge([zeros, zeros, zeros])
-        if select == "h":
-            mono_arr = cv2.merge([h, zeros, zeros])
-        elif select == "s":
-            mono_arr = cv2.merge([zeros, s, zeros])
-        elif select == "v":
-            mono_arr = cv2.merge([zeros, zeros, v])
+        
+        channel_map = {"h": h, "s": s, "v": v}
+        mono_arr = channel_map[select]
         
         return mono_arr
     

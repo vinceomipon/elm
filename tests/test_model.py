@@ -127,6 +127,12 @@ def test_disp_hsv_img4():
 
 def test_disp_hsv_mono_img1():
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_channels" / f"{img_dir.name}"
+    img = ELMImage(img_dir)
+
+    img.disp_hsv_mono_img(out_dir, select="h")
+    img.disp_hsv_mono_img(out_dir, select="s")
+    img.disp_hsv_mono_img(out_dir, select="v")
 
 
 
