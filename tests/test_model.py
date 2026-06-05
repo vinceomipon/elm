@@ -97,6 +97,38 @@ def test_resize_img():
     assert np.array_equal(actual_bgr_arr, expected_bgr_arr)
     assert np.array_equal(actual_hsv_arr, expected_hsv_arr)
 
+def test_disp_hsv_img1():
+    img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_imgs" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+
+    img.disp_hsv_img(out_dir)
+
+def test_disp_hsv_img2():
+    img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_imgs" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+
+    img.disp_hsv_img(out_dir)
+
+def test_disp_hsv_img3():
+    img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6674.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_imgs" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+
+    img.disp_hsv_img(out_dir)
+
+def test_disp_hsv_img4():
+    img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_imgs" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+
+    img.disp_hsv_img(out_dir)
+
+def test_disp_hsv_mono_img1():
+    img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
+
+
 
 # checks that flatten_channels fnc actually flatten arr from nxn 1xn^2
 def test_flatten_channels():
@@ -107,6 +139,8 @@ def test_flatten_channels():
 
     for colours in actual_channels:
         assert colours.size == 4
+
+
 
     
     

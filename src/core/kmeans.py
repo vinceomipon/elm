@@ -21,10 +21,16 @@ class k_means_calc:
         else:
             self.centroids = centroids
     
-    def k_means(self, out_dir: Path):
+    def k_means(self, out_dir: Path, select: int):
         # Convert 3D array [x, y, colour_channels] into flatten 1d array [[colour_channels]]
         # indice of array matches pixel (x,y)
-        pixel_vals = self.img.bgr_arr.reshape((-1,3))
+        # select = 0 is bgr, select = 1 is hsv
+        if select == 0:
+            pixel_vals = self.img.hsv_arr.reshape((-1,3))
+        elif select == 1:
+            pixel_vals = self.img.bgr_arr.reshape((-1,3))
+            
+        
         pixel_vals = np.float32(pixel_vals)
 
         # max 100 iterations of k_means with accuraccy 85%

@@ -42,41 +42,78 @@ def test_constructor2():
         assert 0 <= centroid[1] and 255 >= centroid[1]
         assert 0 <= centroid[2] and 255 >= centroid[2]
 
-def test_kmeans1():
+def test_twokmeans1():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
     out_dir = Path.cwd() / "data" / "output" / "k_means" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir)
+    calc.k_means(out_dir, select=1)
 
-def test_kmeans2():
+def test_twokmeans2():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
     out_dir = Path.cwd() / "data" / "output" / "k_means"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir)
+    calc.k_means(out_dir, select=1)
 
-def test_kmeans3():
+def test_twokmeans3():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6674.png"
     out_dir = Path.cwd() / "data" / "output" / "k_means"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir)
+    calc.k_means(out_dir, select=1)
 
-def test_kmeans4():
+def test_twokmeans4():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
     out_dir = Path.cwd() / "data" / "output" / "k_means"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir)
+    calc.k_means(out_dir, select=1)
+
+def test_threekmeans1():
+    k = 3
+    img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" 
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+
+    calc.k_means(out_dir, select=0)
+
+def test_threekmeans2():
+    k = 3
+    img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" 
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+
+    calc.k_means(out_dir, select=0)
+
+def test_threekmeans3():
+    k = 3
+    img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6674.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+
+    calc.k_means(out_dir, select=0)
+
+def test_threekmeans4():
+    k = 3
+    img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+
+    calc.k_means(out_dir, select=0)
+
 
 
 

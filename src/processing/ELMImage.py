@@ -84,6 +84,35 @@ class ELMImage:
 
         plt.close(fig)
     
+    def disp_hsv_mono_img(self, out_dir: Path, select: str):
+        # get the mono arr from hsv based on select
+        mono_arr = self.hsv_mono_arr(select)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_filename = f"{select}_{self.dir.with_suffix(".png").name}"
+        out_path = out_dir / f"{self.dir.parent.name}_{out_filename}"
+        cv2.imwrite(str(out_path), mono_arr)
+    
+    def disp_hsv_img(self, out_dir: Path):
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_filename = f"hsv_{self.dir.with_suffix(".png").name}"
+        out_path = out_dir / f"{self.dir.parent.name}_{out_filename}"
+        cv2.imwrite(str(out_path), self.hsv_arr)
+
+
+    def hsv_mono_arr(self, select: str) -> cv2.typing.MatLike:
+        h, s, v = cv2.split(self.hsv_arr)
+        zeros = np.zeros_like(h)
+
+        mono_arr = cv2.merge([zeros, zeros, zeros])
+        if select == "h":
+            mono_arr = cv2.merge([h, zeros, zeros])
+        elif select == "s":
+            mono_arr = cv2.merge([zeros, s, zeros])
+        elif select == "v":
+            mono_arr = cv2.merge([zeros, zeros, v])
+        
+        return mono_arr
+    
     
     # Permanently resizes the image
     # returns True if succesfully completed
