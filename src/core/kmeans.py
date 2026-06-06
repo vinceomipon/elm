@@ -27,15 +27,15 @@ class k_means_calc:
         # select = 0 is bgr, select = 1 is hsv
         if select == 0:
             # since for hsv only use k-means for the value channel (-1,1) reshape to (N, 1)
-            pixel_vals = self.img.hsv_mono_arr("v").reshape(-1, 1)
+            pixel_vals = self.img.hsv_arr.reshape((-1,3))
+            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         elif select == 1:
             pixel_vals = self.img.bgr_arr.reshape((-1,3))
+            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.95)
             
         
         pixel_vals = np.float32(pixel_vals)
 
-        # max 100 iterations of k_means with accuraccy 85%
-        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.95)
 
         retval, labels, centers = cv2.kmeans(pixel_vals, self.k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
 
@@ -47,7 +47,7 @@ class k_means_calc:
         # grayscale the segmented image
         gray_segmented_image = None
         if select == 0:
-            segmented_image = segmented_data.reshape(self.img.hsv_mono_arr("v").shape)
+            segmented_image = segmented_data.reshape(self.img.hsv_arr.shape)
             gray_segmented_image = segmented_image
         elif select == 1:
             segmented_image = segmented_data.reshape(self.img.bgr_arr.shape)
