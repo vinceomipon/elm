@@ -134,6 +134,15 @@ def test_disp_hsv_mono_img1():
     img.disp_hsv_mono_img(out_dir, select="s")
     img.disp_hsv_mono_img(out_dir, select="v")
 
+def test_disp_hsv_mono_img4():
+    img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_channels" / f"{img_dir.name}"
+    img = ELMImage(img_dir)
+
+    img.disp_hsv_mono_img(out_dir, select="h")
+    img.disp_hsv_mono_img(out_dir, select="s")
+    img.disp_hsv_mono_img(out_dir, select="v")
+
 
 
 # checks that flatten_channels fnc actually flatten arr from nxn 1xn^2

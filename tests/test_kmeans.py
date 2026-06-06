@@ -45,147 +45,179 @@ def test_constructor2():
 def test_twokmeans1():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means" 
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k"  
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans2():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans3():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6674.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans4():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans5():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6599.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans6():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6596.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans7():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6626.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_twokmeans8():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6639.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "2k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=1)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=1, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans1():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means" 
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans2():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means" 
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k" 
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
     
 
 def test_threekmeans3():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6674.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans4():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans5():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6599.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans6():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6596.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans7():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6626.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 def test_threekmeans8():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6639.png"
-    out_dir = Path.cwd() / "data" / "output" / "k_means"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
 
-    calc.k_means(out_dir, select=0)
+    for i in range(k):
+        single_centroid_img = calc.k_means(out_dir, select=0, target_cluster=i)
+        calc.save_k_means(single_centroid_img, out_dir, i)
 
 
 
