@@ -143,6 +143,13 @@ def test_disp_hsv_mono_img4():
     img.disp_hsv_mono_img(out_dir, select="s")
     img.disp_hsv_mono_img(out_dir, select="v")
 
+def test_disp_hsv_hist():
+    img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6643.png"
+    out_dir = Path.cwd() / "data" / "processed" / "hsv_hist"
+    img = ELMImage(img_dir)
+
+    img.save_plot(out_dir, img.hsv_hist())
+
 
 
 # checks that flatten_channels fnc actually flatten arr from nxn 1xn^2

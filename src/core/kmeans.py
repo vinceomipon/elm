@@ -21,7 +21,7 @@ class k_means_calc:
         else:
             self.centroids = centroids
     
-    def k_means(self, out_dir: Path, select: int, target_cluster: int):
+    def k_means(self, out_dir: Path, select: int):
         # Convert 3D array [x, y, colour_channels] into flatten 1d array [[colour_channels]]
         # indice of array matches pixel (x,y)
         # select = 0 is bgr, select = 1 is hsv
@@ -43,17 +43,21 @@ class k_means_calc:
         # get the original dimensions of the img
         h, w, c = self.img.bgr_arr.shape
 
+        cluster_imgs = []
+
         # the method caller should use a for loop to iterate over the number of k's used
-        # create a completely blank img with the shape of the original
-        one_cluster_img = np.zeros((h * w, c), dtype=np.uint8)
+        for i in range(self.k):
+            # create a completely blank img with the shape of the original
+            one_cluster_img = np.zeros((h * w, c), dtype=np.uint8)
 
+            cluster_mask = (labels.flatten() == i)
 
-        cluster_mask = (labels.flatten() == target_cluster)
+            one_cluster_img[cluster_mask] = [255, 255, 255]
 
-        one_cluster_img[cluster_mask] = [255, 255, 255]
+            cluster_imgs.append(one_cluster_img.reshape(self.img.bgr_arr.shape))
 
-        # returns a single cluster
-        return one_cluster_img.reshape(self.img.bgr_arr.shape)
+        # returns a list of array clusters
+        return cluster_imgs
 
         # centers = np.uint8(centers)
         # segmented_data = centers[labels.flatten()]

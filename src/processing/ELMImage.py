@@ -84,6 +84,45 @@ class ELMImage:
 
         plt.close(fig)
     
+    def hsv_hist(self):
+        figs, axs = plt.subplots(3)
+        figs.suptitle('HSV Histogram plot')
+
+        hist_h = cv2.calcHist([self.bgr_arr], [0], None, [180], [0, 2])
+        hist_s = cv2.calcHist([self.bgr_arr], [1], None, [256], [0, 2])
+        hist_v = cv2.calcHist([self.bgr_arr], [2], None, [256], [0, 256])
+
+        axs[0].plot(hist_h, color='r')
+        axs[0].set_title('Hue Histogram')
+        axs[0].set_ylabel('Pixel Count')
+        axs[0].set_xlabel('Hue Value')
+
+        axs[1].plot(hist_s, color='g')
+        axs[1].set_title('Saturation Histogram')
+        axs[1].set_ylabel('Pixel Count')
+        axs[1].set_xlabel('Saturation Value')
+
+
+        axs[2].plot(hist_v, color='b')
+        axs[2].set_title('Value Histogram')
+        axs[2].set_ylabel('Pixel Count')
+        axs[2].set_xlabel('Value Intensity')
+        
+        figs.tight_layout()
+
+        return figs
+
+
+    def save_plot(self, out_dir: Path, fig):
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_filename = f"hsv_hist_{self.dir.with_suffix(".png").name}"
+        out_path = out_dir / out_filename
+
+        fig.savefig(out_path, dpi=300, bbox_inches="tight")
+        plt.close()
+        
+        
+    
     def disp_hsv_mono_img(self, out_dir: Path, select: str):
         # get the mono arr from hsv based on select
         mono_arr = self.hsv_mono_arr(select)
@@ -97,7 +136,6 @@ class ELMImage:
         out_filename = f"hsv_{self.dir.with_suffix(".png").name}"
         out_path = out_dir / f"{self.dir.parent.name}_{out_filename}"
         cv2.imwrite(str(out_path), self.hsv_arr)
-
 
     def hsv_mono_arr(self, select: str) -> cv2.typing.MatLike:
         h, s, v = cv2.split(self.hsv_arr)
