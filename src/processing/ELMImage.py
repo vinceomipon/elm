@@ -88,11 +88,12 @@ class ELMImage:
         figs, axs = plt.subplots(3)
         figs.suptitle('HSV Histogram plot')
 
-        hist_h = cv2.calcHist([self.bgr_arr], [0], None, [180], [0, 2])
-        hist_s = cv2.calcHist([self.bgr_arr], [1], None, [256], [0, 2])
-        hist_v = cv2.calcHist([self.bgr_arr], [2], None, [256], [0, 256])
+        hist_h = cv2.calcHist([self.hsv_arr], [0], None, [180], [0, 180])
+        hist_s = cv2.calcHist([self.hsv_arr], [1], None, [256], [0, 256])
+        hist_v = cv2.calcHist([self.hsv_arr], [2], None, [256], [0, 256])
 
-        axs[0].plot(hist_h, color='r')
+        bins_h = np.arange(180)
+        axs[0].bar(bins_h, hist_h.ravel(), width=1.0, color='r', edgecolor='none')
         axs[0].set_title('Hue Histogram')
         axs[0].set_ylabel('Pixel Count')
         axs[0].set_xlabel('Hue Value')
