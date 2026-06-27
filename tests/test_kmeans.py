@@ -236,6 +236,18 @@ def test_threekmeans8():
     for i in range(k):
         calc.save_k_means(centroid_imgs[i], out_dir, i)
 
+def test_threekmeans9():
+    k = 3
+    img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6622.png"
+    out_dir = Path.cwd() / "data" / "output" / "k_means" / "3k" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+    centroid_imgs = calc.k_means(out_dir, select=1)
+
+    for i in range(k):
+        
+        calc.save_k_means(centroid_imgs[i], out_dir, i)
+
 def test_panel_mask():
     k = 3
     img_dir = Path.cwd() / "data" / "processed" / "sp4" / "IMG_6639.png"
@@ -272,17 +284,37 @@ def test_panel_mask4():
     out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
-    segmented_img = calc.panel_mask(img)
+    segmented_img = calc.panel_mask(img, select=3)
 
     calc.save_k_means(segmented_img, out_dir, 0)
 
 def test_panel_mask5():
     k = 2
-    img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6599.png"
+    img_dir = Path.cwd() / "data" / "processed" / "sp2" / "IMG_6609.png"
     out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
-    segmented_img = calc.panel_mask(img)
+    segmented_img = calc.panel_mask(img, select=2)
+
+    calc.save_k_means(segmented_img, out_dir, 0)
+
+def test_panel_mask6():
+    k = 2
+    img_dir = Path.cwd() / "data" / "processed" / "sp3" / "IMG_6622.png"
+    out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+    segmented_img = calc.panel_mask(img, select = 3)
+
+    calc.save_k_means(segmented_img, out_dir, 0)
+
+def test_panel_mask6():
+    k = 2
+    img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6596.png"
+    out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+    segmented_img = calc.panel_mask(img, select = 1)
 
     calc.save_k_means(segmented_img, out_dir, 0)
 

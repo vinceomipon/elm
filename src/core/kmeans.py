@@ -77,12 +77,12 @@ class k_means_calc:
 
         # self.save_k_means(gray_segmented_image, out_dir)
     
-    def panel_mask(self, img: ELMImage):
+    def panel_mask(self, img: ELMImage, select: int):
         lower1 = np.array([0, 100, 50])
         upper1 = np.array([30, 255, 255])
         mask1 = cv2.inRange(img.hsv_arr, lower1, upper1)
 
-        lower2 = np.array([165, 100, 50])
+        lower2 = np.array([160, 100, 50])
         upper2 = np.array([180, 255, 255])
         mask2 = cv2.inRange(img.hsv_arr, lower2, upper2)
 
@@ -91,27 +91,42 @@ class k_means_calc:
 
         
         kernel = np.ones((3,3), np.uint8)
-
-        
         out = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, kernel=kernel, iterations=30)
-        y_min, y_max = 2800, 3300
-        x_min, x_max = 1500, 1800
 
-        roi = out[y_min:y_max, x_min:x_max]
-        fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=30)
-
-        out[y_min:y_max, x_min:x_max] = fixed_roi
-
-        y_min, y_max = 2500, 2600
-        x_min, x_max = 1100, 1300
-
-        roi = out[y_min:y_max, x_min:x_max]
-        fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=40)
-
-        out[y_min:y_max, x_min:x_max] = fixed_roi
         
 
-        return out
+        refined_mask = self.morph_select(out, select)
+
+        return refined_mask
+    
+    def morph_select(self, mask, select: int):
+        kernel = np.ones((3,3), np.uint8)
+        
+
+        if select == 4:
+            y_min, y_max = 2800, 3300
+            x_min, x_max = 1500, 1800
+
+            roi = mask[y_min:y_max, x_min:x_max]
+            fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=30)
+
+            mask[y_min:y_max, x_min:x_max] = fixed_roi
+
+            y_min, y_max = 2500, 2600
+            x_min, x_max = 1100, 1300
+
+            roi = mask[y_min:y_max, x_min:x_max]
+            fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=40)
+
+            mask[y_min:y_max, x_min:x_max] = fixed_roi
+        if select == 3:
+            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=5)
+        if select == 2:
+            mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=20)
+
+
+        return mask
+
     
 
 
