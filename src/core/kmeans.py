@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import random
 from pathlib import Path
+from scipy.ndimage import binary_fill_holes
 
 
 # imports all functions made in kmeans
@@ -27,7 +28,7 @@ class k_means_calc:
         # select = 0 is bgr, select = 1 is hsv
         if select == 0:
             pixel_vals = self.img.hsv_arr.reshape((-1,3))
-            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 2.0)
+            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 1)
             source_img = self.img.hsv_arr
         elif select == 1:
             pixel_vals = self.img.bgr_arr.reshape((-1,3))
@@ -75,6 +76,47 @@ class k_means_calc:
 
 
         # self.save_k_means(gray_segmented_image, out_dir)
+    
+    def panel_mask(self, img: ELMImage):
+        lower1 = np.array([0, 100, 50])
+        upper1 = np.array([30, 255, 255])
+        mask1 = cv2.inRange(img.hsv_arr, lower1, upper1)
+
+        lower2 = np.array([165, 100, 50])
+        upper2 = np.array([180, 255, 255])
+        mask2 = cv2.inRange(img.hsv_arr, lower2, upper2)
+
+        # merge the masks into one
+        final_mask = cv2.bitwise_or(mask1, mask2)
+
+        
+        kernel = np.ones((3,3), np.uint8)
+
+        
+        out = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, kernel=kernel, iterations=30)
+        y_min, y_max = 2800, 3300
+        x_min, x_max = 1500, 1800
+
+        roi = out[y_min:y_max, x_min:x_max]
+        fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=30)
+
+        out[y_min:y_max, x_min:x_max] = fixed_roi
+
+        y_min, y_max = 2500, 2600
+        x_min, x_max = 1100, 1300
+
+        roi = out[y_min:y_max, x_min:x_max]
+        fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=40)
+
+        out[y_min:y_max, x_min:x_max] = fixed_roi
+        
+
+        return out
+    
+
+
+
+
 
     def save_k_means(self, channel_arr, out_dir: Path, cluster: int):
         out_dir.mkdir(parents=True, exist_ok=True)

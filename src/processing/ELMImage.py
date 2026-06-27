@@ -88,22 +88,25 @@ class ELMImage:
         figs, axs = plt.subplots(3)
         figs.suptitle('HSV Histogram plot')
 
-        hist_h = cv2.calcHist([self.bgr_arr], [0], None, [180], [0, 2])
-        hist_s = cv2.calcHist([self.bgr_arr], [1], None, [256], [0, 2])
-        hist_v = cv2.calcHist([self.bgr_arr], [2], None, [256], [0, 256])
+        hist_h = cv2.calcHist([self.hsv_arr], [0], None, [180], [0, 180])
+        hist_s = cv2.calcHist([self.hsv_arr], [1], None, [256], [0, 256])
+        hist_v = cv2.calcHist([self.hsv_arr], [2], None, [256], [0, 256])
 
-        axs[0].plot(hist_h, color='r')
+        bins_h = np.arange(180)
+        axs[0].bar(bins_h, hist_h.ravel(), width=1.0, color='r')
         axs[0].set_title('Hue Histogram')
         axs[0].set_ylabel('Pixel Count')
         axs[0].set_xlabel('Hue Value')
 
-        axs[1].plot(hist_s, color='g')
+        bins_s = np.arange(256)
+        axs[1].bar(bins_s, hist_s.ravel(), width=1.0, color='g')
         axs[1].set_title('Saturation Histogram')
         axs[1].set_ylabel('Pixel Count')
         axs[1].set_xlabel('Saturation Value')
 
 
-        axs[2].plot(hist_v, color='b')
+        bins_v = np.arange(256)
+        axs[2].bar(bins_v, hist_v.ravel(), width=1.0, color='b')
         axs[2].set_title('Value Histogram')
         axs[2].set_ylabel('Pixel Count')
         axs[2].set_xlabel('Value Intensity')
