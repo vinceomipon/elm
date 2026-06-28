@@ -274,7 +274,7 @@ def test_panel_mask3():
     out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)
-    segmented_img = calc.panel_mask(img)
+    segmented_img = calc.panel_mask(img, select=4)
 
     calc.save_k_means(segmented_img, out_dir, 0)
 
@@ -308,9 +308,19 @@ def test_panel_mask6():
 
     calc.save_k_means(segmented_img, out_dir, 0)
 
-def test_panel_mask6():
+def test_panel_mask7():
     k = 2
     img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6596.png"
+    out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
+    img = ELMImage(img_dir)
+    calc = k_means_calc(k, img)
+    segmented_img = calc.panel_mask(img, select = 1)
+
+    calc.save_k_means(segmented_img, out_dir, 0)
+
+def test_panel_mask8():
+    k = 2
+    img_dir = Path.cwd() / "data" / "processed" / "sp1" / "IMG_6613.png"
     out_dir = Path.cwd() / "data" / "output" / "panel_mask" / f"{img_dir.parent.name}"
     img = ELMImage(img_dir)
     calc = k_means_calc(k, img)

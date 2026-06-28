@@ -88,10 +88,13 @@ class k_means_calc:
 
         # merge the masks into one
         final_mask = cv2.bitwise_or(mask1, mask2)
-
+        
         
         kernel = np.ones((3,3), np.uint8)
         out = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, kernel=kernel, iterations=30)
+
+        if select == 2:
+            return out
 
         
 
