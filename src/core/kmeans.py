@@ -102,42 +102,97 @@ class k_means_calc:
         kernel = np.ones((3,3), np.uint8)
         out = cv2.morphologyEx(final_mask, cv2.MORPH_OPEN, kernel=kernel, iterations=30)
 
-        if select == 2:
-            return out
+        print("You may apply a fill of black or white, if panel not segmented properly")
+
+        while True:
+            print("please select coordinates")
+            coords = self.get_rectangle_coords(out)
+
 
         
 
-        refined_mask = self.morph_select(out, select)
+        
 
-        return refined_mask
+        return out
     
-    def morph_select(self, mask, select: int):
-        kernel = np.ones((3,3), np.uint8)
+    def click_event(self, event, x, y, flags, coord_list):
+        # If left click triggered save the coordinates
+        if event == cv2.EVENT_LBUTTONDBLCLK:
+            # if first edge
+            if len(coord_list) == 0:
+                coord_list.append((round(x / 0.25), round(y / 0.25)))
+                print(f"Corner 1, ({round(x / 0.25)}, {round(y / 0.25)})")
+            
+            elif len(coord_list) == 1:
+                if coord_list[0][0] < x and coord_list[0][1] < y:
+                    coord_list.append((round(x / 0.25), round(y / 0.25)))
+                    print(f"Corner 2, ({round(x / 0.25)}, {round(y / 0.25)})")
+                else:
+                    print("Invalid corner, please choose (x,y) coords greater than the first edge")
+
+    
+    def get_rectangle_coords(self, mask) -> list:
+        coords = []
+        window_name = "Currnet Mask State"
+        cv2.namedWindow(window_name)
+
+        cv2.setMouseCallback(window_name, self.click_event, param=coords)
+
+        max_clicks = 2
+
+        scaled_down = cv2.resize(mask, (0,0), fx=0.25, fy=0.25, interpolation=cv2.INTER_AREA)
+        
+        
+        while True:
+            # display current state of mask
+            
+            cv2.imshow(window_name, scaled_down)
+
+            key = cv2.waitKey(1) & 0xFF
+            if len(coords) >= max_clicks:
+                print("2 edges reached, closing window")
+                break
+
+            # if user clicks esc, close window
+            if key == 27:
+                print("Selection cancelled by user")
+                break
+
+        cv2.destroyAllWindows()
+        return coords
+
+    
+    
+
+
+    
+    # def morph_select(self, mask, select: int):
+    #     kernel = np.ones((3,3), np.uint8)
         
 
-        if select == 4:
-            y_min, y_max = 2800, 3300
-            x_min, x_max = 1500, 1800
+    #     if select == 4:
+    #         y_min, y_max = 2800, 3300
+    #         x_min, x_max = 1500, 1800
 
-            roi = mask[y_min:y_max, x_min:x_max]
-            fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=30)
+    #         roi = mask[y_min:y_max, x_min:x_max]
+    #         fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=30)
 
-            mask[y_min:y_max, x_min:x_max] = fixed_roi
+    #         mask[y_min:y_max, x_min:x_max] = fixed_roi
 
-            y_min, y_max = 2500, 2600
-            x_min, x_max = 1100, 1300
+    #         y_min, y_max = 2500, 2600
+    #         x_min, x_max = 1100, 1300
 
-            roi = mask[y_min:y_max, x_min:x_max]
-            fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=40)
+    #         roi = mask[y_min:y_max, x_min:x_max]
+    #         fixed_roi = cv2.morphologyEx(roi, cv2.MORPH_CLOSE, kernel, iterations=40)
 
-            mask[y_min:y_max, x_min:x_max] = fixed_roi
-        if select == 3:
-            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=5)
-        if select == 2:
-            mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=20)
+    #         mask[y_min:y_max, x_min:x_max] = fixed_roi
+    #     if select == 3:
+    #         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=5)
+    #     if select == 2:
+    #         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=20)
 
 
-        return mask
+    #     return mask
 
     
 
