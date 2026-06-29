@@ -22,7 +22,7 @@ class k_means_calc:
         else:
             self.centroids = centroids
     
-    def k_means(self, out_dir: Path, select: int):
+    def k_means(self, select: int):
         # Convert 3D array [x, y, colour_channels] into flatten 1d array [[colour_channels]]
         # indice of array matches pixel (x,y)
         # select = 0 is bgr, select = 1 is hsv
@@ -55,7 +55,16 @@ class k_means_calc:
 
             one_cluster_img[cluster_mask] = [255, 255, 255]
 
-            cluster_imgs.append(one_cluster_img.reshape(self.img.bgr_arr.shape))
+            one_cluster_img = one_cluster_img.reshape(self.img.bgr_arr.shape)
+
+            kernel = np.ones((3,3), np.uint8)
+            # remove any noise from the image
+
+            b, g, r = one_cluster_img[2100, 1250]
+            if b == 255 and g == 255 and r == 255:
+                return one_cluster_img
+
+            # cluster_imgs.append(one_cluster_img.reshape(self.img.bgr_arr.shape))
 
         # returns a list of array clusters
         return cluster_imgs
@@ -136,9 +145,11 @@ class k_means_calc:
 
 
 
-    def save_k_means(self, channel_arr, out_dir: Path, cluster: int):
+    def save_segmentation(self, channel_arr, out_dir: Path, select: int):
+        seg_performed = "healthy" if select == 0 else "panel" if select == 1 else ""
+
         out_dir.mkdir(parents=True, exist_ok=True)
-        out_filename = f"{self.k}k_cluster_{cluster}_{self.img.dir.with_suffix(".png").name}"
+        out_filename = f"{seg_performed}_seg_{self.img.dir.with_suffix(".png").name}"
         out_path = out_dir / f"{self.img.dir.parent.name}_{out_filename}"
         cv2.imwrite(str(out_path), channel_arr)
 

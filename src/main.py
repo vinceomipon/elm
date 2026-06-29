@@ -18,6 +18,20 @@ def main():
     k = 2
     img = ELMImage(file_path)
     calc = k_means_calc(k, img)
+    out_dir = Path.cwd() / f"data/output/healthy_segmentation/{img.dir.parent.name}"
+
+    healthy_segment = calc.k_means(select=1)
+
+    print(f"Healthy segmentation performed, saving it in {out_dir}")
+    calc.save_segmentation(healthy_segment, out_dir, select=0)
+    print("Healthy segmentation saved")
+
+    print("Performing panel segmentation of solar panel")
+    panel_segmentation = calc.panel_mask(img, select=1)
+
+
+
+
     
 
 
@@ -30,7 +44,7 @@ def get_file_path() -> Path:
 
     while True:
         user_string = input("Enter a valid image file located in data/processed/sp*: ").strip("'\"")
-        file_path = Path(user_string)
+        file_path = Path.cwd() / "data/processed" / user_string
 
         if file_path.is_file():
             print("File found")
