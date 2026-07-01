@@ -9,6 +9,8 @@ from scipy.ndimage import binary_fill_holes
 from src.core.kmeans import *
 from src.processing.ELMImage import *
 
+SCALE = 0.20
+
 class k_means_calc:
     # only pass centroids for argument purposes, to verify that implementation works
     def __init__(self, k: int, img: ELMImage, centroids=None):
@@ -104,29 +106,44 @@ class k_means_calc:
 
         print("You may apply a fill of black or white, if panel not segmented properly")
 
-        while True:
-            print("please select coordinates")
-            coords = self.get_rectangle_coords(out)
+        self.fill(out)
 
-
-        
-
-        
+        print("Fill complete, exiting panel mask")
 
         return out
+    
+    def fill(self, mask) -> bool:
+        while True:
+            print("please select coordinates to fill")
+            coords = self.get_rectangle_coords(mask)
+
+            if len(coords) <= 1:
+                break
+
+            user_select = -1
+            while user_select != 0 and user_select != 1:
+                user_select = int(input("Select 0 for black fill, 1 for white fill: "))
+            
+            if user_select == 0:
+                print("Applying black fill")
+                cv2.rectangle(mask, coords[0], coords[1], color=[0, 0, 0], thickness=-1)
+            elif user_select == 1:
+                print("Applying white fill")
+                cv2.rectangle(mask, coords[0], coords[1], color=[255, 255, 255], thickness=-1)
+
     
     def click_event(self, event, x, y, flags, coord_list):
         # If left click triggered save the coordinates
         if event == cv2.EVENT_LBUTTONDBLCLK:
             # if first edge
             if len(coord_list) == 0:
-                coord_list.append((round(x / 0.25), round(y / 0.25)))
-                print(f"Corner 1, ({round(x / 0.25)}, {round(y / 0.25)})")
+                coord_list.append((round(x / SCALE), round(y / SCALE)))
+                print(f"Corner 1, ({round(x / SCALE)}, {round(y / SCALE)})")
             
             elif len(coord_list) == 1:
-                if coord_list[0][0] < x and coord_list[0][1] < y:
-                    coord_list.append((round(x / 0.25), round(y / 0.25)))
-                    print(f"Corner 2, ({round(x / 0.25)}, {round(y / 0.25)})")
+                if coord_list[0][0] < (x / SCALE) and coord_list[0][1] < (y/ SCALE):
+                    coord_list.append((round(x / SCALE), round(y / SCALE)))
+                    print(f"Corner 2, ({round(x / SCALE)}, {round(y / SCALE)})")
                 else:
                     print("Invalid corner, please choose (x,y) coords greater than the first edge")
 
@@ -140,7 +157,7 @@ class k_means_calc:
 
         max_clicks = 2
 
-        scaled_down = cv2.resize(mask, (0,0), fx=0.25, fy=0.25, interpolation=cv2.INTER_AREA)
+        scaled_down = cv2.resize(mask, (0,0), fx=SCALE, fy=SCALE, interpolation=cv2.INTER_AREA)
         
         
         while True:
@@ -200,12 +217,14 @@ class k_means_calc:
 
 
 
-    def save_segmentation(self, channel_arr, out_dir: Path, select: int):
+    def save_segmentation(self, channel_arr, out_dir: Path, select: int) -> str:
         seg_performed = "healthy" if select == 0 else "panel" if select == 1 else ""
 
         out_dir.mkdir(parents=True, exist_ok=True)
         out_filename = f"{seg_performed}_seg_{self.img.dir.with_suffix(".png").name}"
         out_path = out_dir / f"{self.img.dir.parent.name}_{out_filename}"
         cv2.imwrite(str(out_path), channel_arr)
+
+        return str(out_path)
 
     
